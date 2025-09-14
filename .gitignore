@@ -1,0 +1,36 @@
+# Build
+bin/
+obj/
+
+# Rider / IntelliJ
+.idea/
+*.iml
+out/
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+
+# Local database files (SQL Server, SQLite, etc.)
+*.mdf
+*.ldf
+*.db
+*.sqlite
+
+# Entity Framework
+#migrations history should stay, but snapshot files are generated
+*Migrations/*.Designer.cs
+*Migrations/*Snapshot.cs
+
+# OS-specific
+.DS_Store
+Thumbs.db
