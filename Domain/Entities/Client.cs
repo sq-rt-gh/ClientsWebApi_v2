@@ -5,12 +5,6 @@ using ClientsWebApi_v2.Domain.Entities.Common;
 
 namespace ClientsWebApi_v2.Domain.Entities;
 
-public enum ClientType
-{
-    Individual,
-    Company,
-}
-
 public class Client : BaseEntity<Client>
 {
     public string Name { get; protected set; }
