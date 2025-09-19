@@ -19,7 +19,7 @@ public class ClientService(IClientRepository clientRepository,
 
     public Client Create(ClientForm form)
     {
-        var founders = form.Founders?.Select(f => new Founder(f.FullName, f.Inn)).ToArray() ?? [];
+        var founders = form.Founders?.Select(f => new Founder(f.Inn, f.FullName)).ToArray() ?? [];
         var client = new Client(form.Inn, form.Name, form.Type, founders);
 
         return clientRepository.Add(client);
