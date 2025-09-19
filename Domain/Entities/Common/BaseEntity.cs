@@ -7,21 +7,24 @@ public abstract class BaseEntity<T> where T : BaseEntity<T>
 {
     private static readonly Regex InnRegex = new(@"^\d{10}(\d{2})?$", RegexOptions.Compiled);
 
-    public Guid Id { get; protected set; } = Guid.NewGuid();
+    public int Id { get; protected set; }
 
     public string Inn { get; protected set; }
 
-    public DateTime DateCreated { get; protected set; } = DateTime.Now;
+    public DateTime DateCreated { get; protected set; }
 
-    public DateTime DateModified { get; protected set; } = DateTime.Now;
+    public DateTime DateModified { get; protected set; }
 
     protected BaseEntity()
     {
     }
 
-    protected BaseEntity(string? inn)
+    public BaseEntity(string inn)
     {
         SetInn(inn);
+        var now = DateTime.Now;
+        DateCreated = now;
+        DateModified = now;
     }
 
     public T SetInn(string? inn)

@@ -11,22 +11,18 @@ public class Client : BaseEntity<Client>
 
     public ClientType Type { get; protected set; }
 
-    private readonly ICollection<Founder> _founders = new HashSet<Founder>();
-    public IReadOnlyCollection<Founder> Founders => _founders.ToHashSet();
+    private ICollection<Founder>? _founders;
+    public IReadOnlyCollection<Founder>? Founders => _founders?.ToArray();
 
     protected Client()
     {
     }
 
-    public Client(string inn, string name, ClientType type, IEnumerable<Founder> founders) : base(inn)
+    public Client(string inn, string name, ClientType type, ICollection<Founder>? founders = null) : base(inn)
     {
         SetName(name);
         SetClientType(type);
-
-        foreach (var founder in founders)
-        {
-            AddFounder(founder);
-        }
+        SetFounders(founders);
     }
 
     public Client SetName(string? name)
@@ -44,22 +40,14 @@ public class Client : BaseEntity<Client>
         return this;
     }
 
-    public Client AddFounder(Founder founder)
+    public Client SetFounders(ICollection<Founder>? founders)
     {
-        if (Type == ClientType.Individual)
+        if (Type == ClientType.Individual && Founders is { Count: > 0 })
             throw new InvalidOperationException("ИП не может иметь учредителей");
 
-        if (!_founders.Contains(founder))
-        {
-            _founders.Add(founder);
-        }
-
-        return this;
-    }
-
-    public Client RemoveFounder(Founder founder)
-    {
-        _founders.Remove(founder);
+        _founders = founders ?? new List<Founder>();
+        foreach (var founder in _founders)
+            founder.SetClient(this);
 
         return this;
     }

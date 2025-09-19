@@ -7,16 +7,17 @@ public class Founder : BaseEntity<Founder>
 {
     public string FullName { get; protected set; }
 
+    public int ClientId { get; protected set; }
+
     public Client Client { get; protected set; }
 
     protected Founder()
     {
     }
 
-    public Founder(string fullName, string inn, Client client) : base(inn)
+    public Founder(string inn, string fullName) : base(inn)
     {
         SetFullName(fullName);
-        SetClient(client);
     }
 
     public Founder SetFullName(string fullName)
@@ -30,7 +31,9 @@ public class Founder : BaseEntity<Founder>
     public Founder SetClient(Client client)
     {
         ArgumentNullException.ThrowIfNull(client, nameof(client));
+
         Client = client;
+        ClientId = client.Id;
 
         return this;
     }
