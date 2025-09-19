@@ -28,7 +28,7 @@ public class ClientService(IClientRepository clientRepository,
     public Client Update(int id, ClientForm form)
     {
         var client = clientRepository.GetItemNullable(id)
-                     ?? throw new KeyNotFoundException($"Client with id:{id} is not found");
+                     ?? throw new KeyNotFoundException($"Client with id:{id} was not found");
 
         var founders = form.Founders?.Select(f => new Founder(f.FullName, f.Inn)).ToArray() ?? [];
         client.SetInn(form.Inn).SetName(form.Name).SetClientType(form.Type).SetFounders(founders);

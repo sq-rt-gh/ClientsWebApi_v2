@@ -6,4 +6,7 @@ public class FounderInputDto : BaseInputDto
 {
     [Required(ErrorMessage = "FullName is required")]
     public string? FullName { get; set; }
+
+    [Required(ErrorMessage = "ClientId is required")]
+    public int? ClientId { get; set; }
 }

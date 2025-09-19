@@ -8,7 +8,7 @@ public interface IFounderService
 {
     IEnumerable<Founder> GetAll();
     Founder? GetById(int id);
-    Founder Create(FounderForm form);
-    Founder Update(int id, FounderForm form);
+    Founder Create(FounderForm form, int clientId);
+    Founder Update(int id, FounderForm form, int clientId);
     bool Delete(int id);
 }

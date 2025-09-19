@@ -6,7 +6,9 @@ using ClientsWebApi_v2.Domain.Entities;
 
 namespace ClientsWebApi_v2.Application.Services;
 
-public class FounderService(IFounderRepository founderRepository) : IFounderService
+public class FounderService(IFounderRepository founderRepository,
+    IClientRepository clientRepository)
+    : IFounderService
 {
     public IEnumerable<Founder> GetAll()
         => founderRepository.GetEnumerable();
@@ -14,19 +16,25 @@ public class FounderService(IFounderRepository founderRepository) : IFounderServ
     public Founder? GetById(int id)
         => founderRepository.GetItemNullable(id);
 
-    public Founder Create(FounderForm form)
+    public Founder Create(FounderForm form, int clientId)
     {
         var founder = new Founder(form.Inn, form.FullName);
-        return founderRepository.Add(founder);
+
+        var client = clientRepository.GetItemNullable(clientId)
+                     ?? throw new KeyNotFoundException($"Client with id:{clientId} was not found");
+
+        return founderRepository.Add(founder.SetClient(client));
     }
 
-    public Founder Update(int id, FounderForm form)
+    public Founder Update(int id, FounderForm form, int clientId)
     {
         var founder = founderRepository.GetItemNullable(id)
-                      ?? throw new KeyNotFoundException($"Founder with id:{id} is not found");
+                      ?? throw new KeyNotFoundException($"Founder with id:{id} was not found");
 
-        founder.SetFullName(form.FullName)
-            .SetInn(form.Inn);
+        var client = clientRepository.GetItemNullable(clientId)
+                     ?? throw new KeyNotFoundException($"Client with id:{clientId} was not found");
+
+        founder.SetFullName(form.FullName).SetInn(form.Inn).SetClient(client);
 
         return founderRepository.Update(founder);
     }

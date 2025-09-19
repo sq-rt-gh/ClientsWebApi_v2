@@ -62,5 +62,5 @@ public class ClientsController(IClientService clientService)
 
     private ClientOutputDto GetClientOutputDto(Client client)
         => new(client.Id, client.Inn, client.Name, client.Type,
-            client.Founders?.Select(f => new FounderOutputDto(f.Id, f.Inn, f.FullName)).ToArray());
+            client.Founders?.Select(f => new FounderOutputDto(f.Id, f.Inn, f.FullName, f.ClientId)).ToArray());
 }

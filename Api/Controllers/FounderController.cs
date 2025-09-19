@@ -36,7 +36,7 @@ public class FoundersController(IFounderService founderService, IClientRepositor
     public ActionResult<FounderOutputDto> Create([FromBody] FounderInputDto dto)
     {
         var form = new FounderForm(dto.Inn!, dto.FullName!);
-        var created = founderService.Create(form);
+        var created = founderService.Create(form, dto.ClientId!.Value);
 
         return Created(created.Id.ToString(), GetFounderOutputDto(created));
     }
@@ -45,7 +45,7 @@ public class FoundersController(IFounderService founderService, IClientRepositor
     public ActionResult<FounderOutputDto> Update(int id, [FromBody] FounderInputDto dto)
     {
         var form = new FounderForm(dto.Inn!, dto.FullName!);
-        var updated = founderService.Update(id, form);
+        var updated = founderService.Update(id, form, dto.ClientId!.Value);
 
         return Ok(GetFounderOutputDto(updated));
     }
@@ -57,5 +57,5 @@ public class FoundersController(IFounderService founderService, IClientRepositor
     }
 
     private FounderOutputDto GetFounderOutputDto(Founder founder)
-        => new(founder.Id, founder.Inn, founder.FullName);
+        => new(founder.Id, founder.Inn, founder.FullName, founder.ClientId);
 }
